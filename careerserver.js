@@ -9,7 +9,7 @@ const cols = [
  
  const internships = [
   { dateAdded: "5/23/2020", name: "MLH Fellowship", link: "https://fellowship.mlh.io/", description: "Spend 12 weeks working on an open source project", deadline: "5/24/2020"},
-  { dateAdded: "5/23/2020", name: "MLH bruh", link: "https://fellowship.mlh.io/", description: "Spend 12 weeks working on an open source project", deadline: "5/25/2020"}
+  { dateAdded: "5/23/2020", name: "google", link: "https://fellowship.mlh.io/", description: "Spend 12 weeks working on an open source project", deadline: "5/25/2020"}
  ];
 
  const jobs = [
