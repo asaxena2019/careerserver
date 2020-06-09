@@ -110,6 +110,7 @@ const cols = [
   { key: "title", name: "Title", editable: true },
   { key: "complete", name: "Complete", editable: true }
  ];
+<<<<<<< HEAD
 
  var internships = [];
 
@@ -121,6 +122,13 @@ const cols = [
     description: "Description", 
     deadline: "Deadline" 
   };
+=======
+ 
+ const internships = [
+  { dateAdded: "5/23/2020", name: "MLH Fellowship", link: "https://fellowship.mlh.io/", description: "Spend 12 weeks working on an open source project", deadline: "5/24/2020"},
+  { dateAdded: "5/23/2020", name: "google", link: "https://fellowship.mlh.io/", description: "Spend 12 weeks working on an open source project", deadline: "5/25/2020"}
+ ];
+>>>>>>> c2acaf1df138fb37e53d1d38e89fb8dc34de5d51
 
  const jobs = [
   { dateAdded: "5/23/2020", name: "job", link: "https://www.google.com/", description: "bruh", deadline: "5/24/2020"}
