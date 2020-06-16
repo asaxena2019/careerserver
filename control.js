@@ -24,7 +24,24 @@ module.exports = {
         
         gapi.fetchData(message , function(result)
         {
-            callback(result);
+            console.log("message: " + message)
+            if (result.length) {
+                var temp = internshipRow;
+                internships =[];
+                result.map((row) => {
+                    internshipRow.type = message;
+                    internshipRow.dateAdded = row[0];
+                    internshipRow.name = row[1];
+                    internshipRow.link = row[2];
+                    internshipRow.description = row[3];
+                    internshipRow.deadline = row[4];
+                    console.log("internshipRow: " + JSON.stringify(internshipRow))
+                    internships.push(JSON.parse(JSON.stringify(internshipRow)));
+                });
+              } else {
+                console.log('No data found.');
+              } 
+            callback(internships);
         });
     }
 };

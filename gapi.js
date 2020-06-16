@@ -10,6 +10,10 @@ const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
 const TOKEN_PATH = 'token.json';
 
 var sheet;
+
+ var internships = ["blah"];
+
+
 module.exports = {
     /*
     * Function :
@@ -28,10 +32,13 @@ module.exports = {
         fs.readFile('credentials.json', (err, content) => {
             if (err) return console.log('Error loading client secret file:', err);
             // Authorize a client with credentials, then call the Google Sheets API.
-            authorize(JSON.parse(content), listMajors);
-            console.log("INTERNSHIPS:  " + internships);
-            callback(internships); 
-        });
+           
+            authorize(JSON.parse(content),function(auth) {
+              listMajors(auth,function (result){
+                callback(result);
+              });
+            });
+          });
     }
 
 };
@@ -99,62 +106,20 @@ fs.readFile('credentials.json', (err, content) => {
    * @see https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
    * @param {google.auth.OAuth2} auth The authenticated Google OAuth client.
    */
-  function listMajors(auth) {
+  function listMajors(auth,callback) {
     const sheets = google.sheets({version: 'v4', auth});
     internships = [];
     console.log("Sheet: " + sheet);
     //'Internships!A2:E'
     sheets.spreadsheets.values.get({
       spreadsheetId: '1f0XwxpTd1p9KM9hDsEPuXDYCoDtrqQUc5Ln98LvrK3M',
-      range: "Jobs!A2:E",
+      range: sheet,
     }, (err, res) => {
-      if (err) return console.log('The API returned an error: ' + err);
-      var rows = res.data.values;
-//      console.log('Rows:  ' + rows);
-//      return(res);
-      
-      if (rows.length) {
-        //console.log('Rows:  ' + rows);
-        // Print columns A and E, which correspond to indices 0 and 4.
-        var temp = internshipRow
-        rows.map((row) => {
-          //console.log('row: ' + row);
-          //var temp = internshipRow;
-          temp.dateAdded = row[0];
-          temp.name = row[1];
-          temp.link = row[2];
-          temp.description = row[3];
-          temp.deadline = row[4];
-//          console.log("internshipRow: " + JSON.stringify(temp))
-          internships.push(JSON.parse(JSON.stringify(temp)));
-          //internships.push(temp);
-        });
-      } else {
-        console.log('No data found.');
-      } 
-//      console.log(rows);
-      return(rows); 
-    });
+      if (err) 
+        return console.log('The API returned an error: ' + err);
+      callback(res.data.values); 
+      });
   }
   
-  const cols = [
-    { key: "id", name: "ID", editableeee: true },
-    { key: "title", name: "Title", editable: true },
-    { key: "complete", name: "Complete", editable: true }
-   ];
-  
-   
-   var internships = [];
-   let internshipRow = { 
-      type: "Internship",
-      dateAdded: "Date Added", 
-      name: "Name", 
-      link: "Link", 
-      description: "Description", 
-      deadline: "Deadline" 
-    };
-  
-   const jobs = [
-    { dateAdded: "5/23/2020", name: "job", link: "https://www.google.com/", description: "bruh", deadline: "5/24/2020"}
-   ];
+
   
