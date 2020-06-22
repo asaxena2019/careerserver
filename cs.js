@@ -17,20 +17,14 @@ var httpServer = http.createServer(function (req, resp) {
  var json = '';
  console.log("Server Method: " + method);
 
-
- 
  let payload = '';
 
  if("GET" == method){
-//   if (messageObj.info !== 'undefined'){
-//     control.processMessage(function (){
     var temp = url.parse(req.url, true).pathname;
     var queryObj = temp.replace(/\//g,"");
        console.log(queryObj);
-     //});
 
      control.processMessage(queryObj,function(result) {
-      console.log("RESULT  "+ JSON.stringify(result));
       resp.statusCode = 200;
       resp.setHeader('Content-Type', 'application/json');
       resp.writeHead(200, {'Access-Control-Allow-Origin':'*'});
@@ -40,11 +34,6 @@ var httpServer = http.createServer(function (req, resp) {
           console.error(err);
       });
   });
-
-
- //}
-   //resp.writeHead(200, {'Access-Control-Allow-Origin':'*'});
-   //resp.end(JSON.stringify(internships));
  }
  else if("POST" == method){
    let body = [];
@@ -55,11 +44,9 @@ var httpServer = http.createServer(function (req, resp) {
 .on('data', (data) => {
 body.push(data);
 json += data;
-// payload += decoder.write(data);
    })
 .on('end', () => {
 body = Buffer.concat(body).toString();
-// control.processMessage(json,function(result) {
 resp.statusCode = 200;
 resp.setHeader('Content-Type', 'application/json');
 resp.writeHead(200, {'Access-Control-Allow-Origin':'*'});
@@ -68,7 +55,6 @@ resp.end(JSON.stringify(result));
 resp.on('error', (err) => {
 console.error(err);
 });
-//});
 
 });
 

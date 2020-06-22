@@ -23,18 +23,15 @@ module.exports = {
     */
     fetchData: function (message, callback)
     {
-        //console.log("fetch data" + message);
         sheet = "";
-        // 'Internships!A2:E',
-        sheet = message + "!A2:E";
+        sheet = message + "!A2:H";
         console.log("fetch data" + sheet);
         // Load client secrets from a local file.
         fs.readFile('credentials.json', (err, content) => {
             if (err) return console.log('Error loading client secret file:', err);
             // Authorize a client with credentials, then call the Google Sheets API.
-           
             authorize(JSON.parse(content),function(auth) {
-              listMajors(auth,function (result){
+              listResources(auth,function (result){
                 callback(result);
               });
             });
@@ -44,12 +41,6 @@ module.exports = {
 };
 
 /*
-// Load client secrets from a local file.
-fs.readFile('credentials.json', (err, content) => {
-    if (err) return console.log('Error loading client secret file:', err);
-    // Authorize a client with credentials, then call the Google Sheets API.
-    authorize(JSON.parse(content), listMajors);
-  });
   */
   /**
    * Create an OAuth2 client with the given credentials, and then execute the
@@ -102,22 +93,24 @@ fs.readFile('credentials.json', (err, content) => {
   }
   
   /**
-   * Prints the names and majors of students in a sample spreadsheet:
-   * @see https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
+   * @see https://docs.google.com/spreadsheets/d/1f0XwxpTd1p9KM9hDsEPuXDYCoDtrqQUc5Ln98LvrK3M/edit#gid=2092283273
    * @param {google.auth.OAuth2} auth The authenticated Google OAuth client.
    */
-  function listMajors(auth,callback) {
+  function listResources(auth,callback) {
     const sheets = google.sheets({version: 'v4', auth});
-    internships = [];
+    resources = [];
     console.log("Sheet: " + sheet);
-    //'Internships!A2:E'
     sheets.spreadsheets.values.get({
       spreadsheetId: '1f0XwxpTd1p9KM9hDsEPuXDYCoDtrqQUc5Ln98LvrK3M',
       range: sheet,
     }, (err, res) => {
       if (err) 
         return console.log('The API returned an error: ' + err);
-      callback(res.data.values); 
+        
+        var category = JSON.stringify(res.data.range).split('!')[0].replace(/"/g,"");
+        console.log(category);
+        console.log(res.data)
+        callback(res.data); 
       });
   }
   
