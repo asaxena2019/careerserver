@@ -1,3 +1,5 @@
+require("dotenv").config()
+
 const fs = require('fs');
 const readline = require('readline');
 const {google} = require('googleapis');
@@ -10,9 +12,6 @@ const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
 const TOKEN_PATH = 'token.json';
 
 var sheet;
-
- var internships = ["blah"];
-
 
 module.exports = {
     /*
@@ -27,17 +26,16 @@ module.exports = {
         sheet = message + "!A2:H";
         console.log("fetch data" + sheet);
         // Load client secrets from a local file.
-        fs.readFile('credentials.json', (err, content) => {
-            if (err) return console.log('Error loading client secret file:', err);
-            // Authorize a client with credentials, then call the Google Sheets API.
-            authorize(JSON.parse(content),function(auth) {
-              listResources(auth,function (result){
-                callback(result);
-              });
-            });
+        authorize({
+          client_secret:process.env.client_secret,
+          client_id:process.env.client_id,
+          redirect_uris:["urn:ietf:wg:oauth:2.0:oob","http://localhost"]
+        }, function(auth) {
+          listResources(auth,function (result){
+            callback(result);
           });
+        });
     }
-
 };
 
 /*
@@ -49,7 +47,7 @@ module.exports = {
    * @param {function} callback The callback to call with the authorized client.
    */
   function authorize(credentials, callback) {
-    const {client_secret, client_id, redirect_uris} = credentials.installed;
+    const {client_secret, client_id, redirect_uris} = credentials;
     const oAuth2Client = new google.auth.OAuth2(
         client_id, client_secret, redirect_uris[0]);
   
@@ -100,19 +98,16 @@ module.exports = {
     const sheets = google.sheets({version: 'v4', auth});
     resources = [];
     console.log("Sheet: " + sheet);
+    console.log(process.env.spreadsheetId);
     sheets.spreadsheets.values.get({
-      spreadsheetId: '1f0XwxpTd1p9KM9hDsEPuXDYCoDtrqQUc5Ln98LvrK3M',
+      spreadsheetId: process.env.spreadsheetId,
       range: sheet,
     }, (err, res) => {
       if (err) 
         return console.log('The API returned an error: ' + err);
-        
         var category = JSON.stringify(res.data.range).split('!')[0].replace(/"/g,"");
         console.log(category);
         console.log(res.data)
         callback(res.data); 
       });
   }
-  
-
-  

@@ -1,0 +1,24 @@
+{
+  "name": "careerserver",
+  "version": "0.1.0",
+  "description": "Node.js server for sl-careers. Currently working on Google API implementation. Will not be used due to change in programming language.",
+  "main": "careerserver.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asaxena2019/careerserver.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/asaxena2019/careerserver/issues"
+  },
+  "homepage": "https://github.com/asaxena2019/careerserver#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "env": "0.0.2",
+    "googleapis": "^39.2.0"
+  }
+}

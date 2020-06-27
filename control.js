@@ -27,6 +27,7 @@ module.exports = {
         
         gapi.fetchData(message , function(result)
         {
+            console.log(result)
             console.log("message: " + message.values)
             if (result.values.length) {
                 resources =[];
