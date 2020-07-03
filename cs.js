@@ -78,7 +78,7 @@ console.error(err);
 });
 
 
-httpServer.listen(4000);
+httpServer.listen(process.env.PORT || 4000);
 
 
 function replyMessage (reply)
